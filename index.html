@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ذهن‌خوان</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Tahoma, Vazirmatn, sans-serif;
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--tg-theme-bg-color, #fff);
+            color: var(--tg-theme-text-color, #000);
+            direction: rtl;
+        }
 
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 18px;
+            width: 80%;
+            max-width: 300px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            text-align: center;
+            direction: ltr;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #2ea6ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        #loader {
+            display: none;
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            animation: pulse 1s infinite;
+        }
+
+        #result {
+            display: none;
+            margin-top: 30px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #2ea6ff;
+            line-height: 1.8;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>🔮 به یک عدد فکر کن</h1>
+    <p>من ذهنت را می‌خوانم...</p>
+
+    <input type="number" id="userNumber" placeholder="عدد را اینجا بنویس..." inputmode="numeric">
+    <br>
+    <button onclick="startTrick()">ذهنم را بخوان!</button>
+
+    <div id="loader">🧠 در حال خواندن ذهن شما... لطفاً صبر کنید...</div>
+    <div id="result"></div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        function toPersianDigits(str) {
+            const persian = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+            return String(str).replace(/\d/g, d => persian[d]);
+        }
+
+        function startTrick() {
+            const number = document.getElementById('userNumber').value;
+            const loader = document.getElementById('loader');
+            const result = document.getElementById('result');
+            const button = document.querySelector('button');
+            const input = document.getElementById('userNumber');
+
+            if (number === "") {
+                alert("اول یک عدد بنویس! 🙂");
+                return;
+            }
+
+            button.style.display = 'none';
+            input.style.display = 'none';
+            loader.style.display = 'block';
+            result.style.display = 'none';
+
+            setTimeout(() => {
+                loader.style.display = 'none';
+                result.style.display = 'block';
+                result.innerHTML = `به این عدد فکر می‌کردی:<br><span style="font-size: 52px;">${toPersianDigits(number)}</span>`;
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
